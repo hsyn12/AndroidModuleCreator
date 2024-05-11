@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      prefHeight="363.0"
+      prefWidth="800.0"
+      spacing="36.0"
+      styleClass="purple"
+      xmlns="http://javafx.com/javafx/11.0.14-internal"
+      fx:controller="com.tr.xyz.modulecreator.CreatorController">
+	<padding>
+		<Insets left="16.0"
+		        top="16.0"/>
+	</padding>
+	
+	<!-- Left side -->
+	<VBox alignment="CENTER_LEFT"
+	      VBox.vgrow="NEVER">
+		<HBox alignment="BOTTOM_CENTER"
+		      VBox.vgrow="ALWAYS">
+			<Label styleClass="type-label"
+			       text="Module Type">
+				<font>
+					<Font size="16.0"/>
+				</font>
+			</Label>
+			<VBox.margin>
+				<Insets bottom="16.0"/>
+			</VBox.margin>
+		</HBox>
+		
+		<!-- Module Types -->
+		<VBox spacing="6.0"
+		      HBox.hgrow="ALWAYS"
+		      VBox.vgrow="ALWAYS">
+			<!-- Android Module Radio Button -->
+			<RadioButton fx:id="moduleTypeAndroid"
+			             mnemonicParsing="false"
+			             selected="true"
+			             styleClass="radio-button"
+			             text="Android Module"
+			             textAlignment="CENTER">
+				<toggleGroup>
+					<ToggleGroup fx:id="moduleType"/>
+				</toggleGroup>
+				<graphic>
+					<ImageView>
+						<Image requestedHeight="24"
+						       requestedWidth="24"
+						       url="@images/android.png"/>
+					</ImageView>
+				</graphic>
+				<tooltip>
+					<Tooltip text="Android Module"/>
+				</tooltip>
+			</RadioButton>
+			<!-- Java Module Radio Button -->
+			<RadioButton fx:id="moduleTypeJava"
+			             mnemonicParsing="false"
+			             styleClass="radio-button"
+			             text="Java Module">
+				<toggleGroup>
+					<fx:reference source="moduleType"/>
+				</toggleGroup>
+				<graphic>
+					<ImageView>
+						<Image requestedHeight="24"
+						       requestedWidth="24"
+						       url="@images/java.png"/>
+					</ImageView>
+				</graphic>
+				<tooltip>
+					<Tooltip text="Java Module"/>
+				</tooltip>
+			</RadioButton>
+			<!-- Kotlin Module -->
+			<CheckBox fx:id="kotlinSupport"
+			          alignment="CENTER"
+			          text="Kotlin Support"
+			          textAlignment="CENTER">
+				<graphic>
+					<ImageView>
+						<Image requestedHeight="24"
+						       requestedWidth="24"
+						       url="@images/kotlin.png"/>
+					</ImageView>
+				</graphic>
+				<font>
+					<Font size="14.0"/>
+				</font>
+			</CheckBox>
+			<VBox.margin>
+				<Insets bottom="16.0"/>
+			</VBox.margin>
+		</VBox>
+		
+		<HBox alignment="BOTTOM_CENTER"
+		      VBox.vgrow="ALWAYS">
+			<Label styleClass="type-label"
+			       text="Build Type">
+				<font>
+					<Font size="16.0"/>
+				</font>
+				<HBox.margin>
+					<Insets bottom="16.0"/>
+				</HBox.margin>
+			</Label>
+		</HBox>
+		
+		<!-- Build Types -->
+		<VBox spacing="6.0"
+		      HBox.hgrow="ALWAYS"
+		      VBox.vgrow="ALWAYS">
+			<!-- Gradle build -->
+			<RadioButton fx:id="buildTypeGradle"
+			             mnemonicParsing="false"
+			             selected="true"
+			             styleClass="radio-button"
+			             text="build.gradle"
+			             textAlignment="CENTER">
+				<toggleGroup>
+					<ToggleGroup fx:id="buildType"/>
+				</toggleGroup>
+				<graphic>
+					<ImageView>
+						<Image requestedHeight="24"
+						       requestedWidth="24"
+						       url="@images/gradle.png"/>
+					</ImageView>
+				</graphic>
+			</RadioButton>
+			
+			<!-- Kotlin build -->
+			<RadioButton fx:id="buildTypeKotlin"
+			             mnemonicParsing="false"
+			             styleClass="radio-button"
+			             text="build.gradle.kts">
+				<toggleGroup>
+					<fx:reference source="buildType"/>
+				</toggleGroup>
+				<graphic>
+					<ImageView>
+						<Image requestedHeight="24"
+						       requestedWidth="24"
+						       url="@images/kotlin.png"/>
+					</ImageView>
+				</graphic>
+			</RadioButton>
+		</VBox>
+		<HBox.margin>
+			<Insets/>
+		</HBox.margin>
+	</VBox>
+	
+	<Separator orientation="VERTICAL"
+	           prefHeight="200.0">
+		<HBox.margin>
+			<Insets left="16.0"
+			        right="16.0"/>
+		</HBox.margin>
+	</Separator>
+	
+	<!-- Right side -->
+	<VBox alignment="CENTER"
+	      HBox.hgrow="ALWAYS">
+		
+		<!-- Top Side -->
+		<VBox alignment="BOTTOM_CENTER"
+		      VBox.vgrow="ALWAYS">
+			<!-- Create Module Button -->
+			<VBox alignment="CENTER">
+				<!-- Folder Selection Region -->
+				<VBox alignment="CENTER"
+				      spacing="8.0"
+				      HBox.hgrow="ALWAYS">
+					<HBox.margin>
+						<Insets right="8.0"
+						        top="64.0"/>
+					</HBox.margin>
+					
+					<!-- Selected Folder Label -->
+					<Label fx:id="selectedFolderLabel"
+					       alignment="CENTER"
+					       minHeight="64.0"
+					       styleClass="text-grad"
+					       text="Selected Folder : None"
+					       textAlignment="CENTER"
+					       textOverrun="WORD_ELLIPSIS"
+					       wrapText="true">
+						<font>
+							<Font name="Corbel Light"
+							      size="14.0"/>
+						</font>
+						<VBox.margin>
+							<Insets bottom="16.0"/>
+						</VBox.margin>
+					</Label>
+					
+					<!-- Select Folder Button -->
+					<Button alignment="CENTER"
+					        contentDisplay="CENTER"
+					        mnemonicParsing="false"
+					        onMouseClicked="#onSelectFolder"
+					        text="Select Folder">
+						<font>
+							<Font size="16.0"/>
+						</font>
+					</Button>
+					
+					<!-- Module Warning Label -->
+					<Label fx:id="moduleWarning"
+					       styleClass="labeled"
+					       textFill="#f83a31">
+						<opaqueInsets>
+							<Insets/>
+						</opaqueInsets>
+					</Label>
+				</VBox>
+				<!-- Module Name Text Field -->
+				<TextField fx:id="moduleName"
+				           alignment="CENTER"
+				           disable="true"
+				           maxWidth="400"
+				           promptText="Enter Module Name">
+					<font>
+						<Font size="16.0"/>
+					</font>
+					<VBox.margin>
+						<Insets bottom="16.0"
+						        top="16.0"/>
+					</VBox.margin>
+				</TextField>
+				
+				<Button fx:id="createModule"
+				        alignment="CENTER"
+				        contentDisplay="CENTER"
+				        disable="true"
+				        mnemonicParsing="false"
+				        onMouseClicked="#onCreateModule"
+				        prefHeight="40"
+				        prefWidth="200"
+				        styleClass="button"
+				        text="Create Module"
+				        textAlignment="CENTER">
+					<font>
+						<Font size="16.0"/>
+					</font>
+				</Button>
+				
+				<VBox.margin>
+					<Insets bottom="16.0"/>
+				</VBox.margin>
+			</VBox>
+		</VBox>
+		<!-- Bottom Side -->
+		<VBox alignment="BOTTOM_CENTER"
+		      VBox.vgrow="ALWAYS">
+			<!-- Package name and Create Result -->
+			<VBox alignment="CENTER"
+			      spacing="8.0"
+			      VBox.vgrow="NEVER">
+				<HBox alignment="CENTER_LEFT"
+				      VBox.vgrow="NEVER">
+					<Label fx:id="packageName"
+					       styleClass="packageName">
+						<font>
+							<Font name="Consolas"
+							      size="18.0"/>
+						</font>
+						<tooltip>
+							<Tooltip text="Package Name"/>
+						</tooltip>
+					</Label>
+					<Label fx:id="labelDone">
+						<font>
+							<Font name="Consolas"
+							      size="15.0"/>
+						</font>
+						<HBox.margin>
+							<Insets left="16.0"/>
+						</HBox.margin>
+					</Label>
+				</HBox>
+				<VBox.margin>
+					<Insets top="16.0"/>
+				</VBox.margin>
+			</VBox>
+			
+			<HBox alignment="BOTTOM_RIGHT">
+				<Button fx:id="settings"
+				        onMouseClicked="#onClickSettings">
+					<graphic>
+						<ImageView>
+							<Image requestedHeight="24"
+							       requestedWidth="24"
+							       url="@images/settings.png"/>
+						</ImageView>
+					</graphic>
+				</Button>
+				<VBox.margin>
+					<Insets/>
+				</VBox.margin>
+			</HBox>
+		</VBox>
+		<padding>
+			<Insets bottom="8.0"
+			        right="8.0"/>
+		</padding>
+		<HBox.margin>
+			<Insets/>
+		</HBox.margin>
+	</VBox>
+	<!-- Styles -->
+	<stylesheets>
+		<URL value="@main_style.css"/>
+	</stylesheets>
+</HBox>

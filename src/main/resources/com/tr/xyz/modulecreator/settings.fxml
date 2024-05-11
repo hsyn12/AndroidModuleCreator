@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1"
+          fx:id="settingsRoot"
+          minHeight="-Infinity"
+          minWidth="-Infinity"
+          xmlns="http://javafx.com/javafx/11.0.14-internal"
+          fx:controller="com.tr.xyz.modulecreator.Settings">
+	<columnConstraints>
+		<ColumnConstraints hgrow="ALWAYS"/>
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints prefHeight="450.0"
+		                vgrow="ALWAYS"/>
+		<RowConstraints maxHeight="80"
+		                prefHeight="67.0"
+		                vgrow="ALWAYS"/>
+	</rowConstraints>
+	
+	<TextArea fx:id="templateTextArea"
+	          onKeyPressed="#onEditTemplate"
+	          prefHeight="231.0"
+	          prefWidth="636.0"
+	          styleClass="text-area"
+	          GridPane.columnIndex="0"
+	          GridPane.hgrow="ALWAYS"
+	          GridPane.rowIndex="0"
+	          GridPane.vgrow="ALWAYS">
+		<font>
+			<Font size="16.0"/>
+		</font>
+	</TextArea>
+	
+	
+	<HBox alignment="CENTER_LEFT"
+	      GridPane.columnIndex="0"
+	      GridPane.hgrow="ALWAYS"
+	      GridPane.rowIndex="1"
+	      GridPane.valignment="CENTER"
+	      GridPane.vgrow="ALWAYS">
+		
+		<Label fx:id="settingsLabel"
+		       contentDisplay="CENTER"
+		       styleClass="label-settings"
+		       text="Use %s for namespace"
+		       HBox.hgrow="ALWAYS"/>
+		
+		<HBox alignment="BOTTOM_RIGHT"
+		      spacing="16.0"
+		      HBox.hgrow="SOMETIMES">
+			<Button fx:id="btnSaveAndClose"
+			        alignment="CENTER"
+			        defaultButton="true"
+			        onAction="#onSaveAndClose"
+			        styleClass="btn-save-close"
+			        text="Save And Close"/>
+			<Button fx:id="btnSave"
+			        onAction="#onSave"
+			        styleClass="btn-save-close"
+			        text="Save"/>
+			<Button fx:id="btnClose"
+			        cancelButton="true"
+			        onAction="#closeTemplateWindow"
+			        styleClass="btn-save-close"
+			        text="Close"/>
+		</HBox>
+		<padding>
+			<Insets bottom="16.0"
+			        left="16.0"
+			        right="16.0"
+			        top="16.0"/>
+		</padding>
+	</HBox>
+	
+	<!-- Styles -->
+	<stylesheets>
+		<URL value="@settings_styles.css"/>
+	</stylesheets>
+</GridPane>

@@ -1,0 +1,52 @@
+.labeled {
+	-fx-font-size: 16px;
+	/* -fx-font-style: italic; */
+	/* -fx-font-weight: bold; */
+	/* -fx-text-fill: #f82222; */
+	-fx-font-family: "Droid Sans Mono";
+}
+
+.packageName {
+	-fx-font-size: 16px;
+	/* -fx-font-style: italic; */
+	/* -fx-font-weight: bold; */
+	/* -fx-text-fill: #f82222; */
+	-fx-font-family: ui-monospace;
+	-fx-text-fill: linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #cd2a5fff 0.0%, #763c89ff 100.0%);
+}
+
+.type-label {
+	-fx-font-size: 18px;
+	-fx-font-style: italic;
+	-fx-text-fill: linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #c21702ff 0.0%, #ffc803ff 100.0%);
+}
+
+.radio-button {
+	-fx-font-size: 16px;
+	/* -fx-font-style: italic; */
+	/* -fx-font-weight: bold; */
+	/* -fx-text-fill: #f82222; */
+	-fx-font-family: ui-monospace;
+}
+
+.button {
+	/* -fx-text-fill: #f82222; */
+	-fx-font-size: 16px;
+}
+
+.label-description {
+	-fx-font-size: 18px;
+	/* -fx-font-style: italic; */
+	/* -fx-font-weight: bold; */
+	/* -fx-text-fill: #f82222; */
+	-fx-font-family: "Droid Sans Mono";
+}
+
+.text-grad {
+	-fx-font-size: 18px;
+	-fx-text-fill: linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #cd2a5fff 0.0%, #763c89ff 100.0%)
+}
+
+.purple {
+	-fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #fcdfe8ff 0.0%, #b6fefcff 100.0%)
+}

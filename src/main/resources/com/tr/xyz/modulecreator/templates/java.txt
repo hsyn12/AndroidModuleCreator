@@ -1,0 +1,18 @@
+plugins {
+	id 'java-library'
+}
+
+java {
+	def java = JavaVersion.valueOf(libs.versions.javaVersion.get())
+	sourceCompatibility java
+	targetCompatibility java
+}
+
+dependencies {
+	implementation libs.annotations
+	testImplementation libs.junit.jupiter
+}
+
+test {
+	useJUnitPlatform()
+}

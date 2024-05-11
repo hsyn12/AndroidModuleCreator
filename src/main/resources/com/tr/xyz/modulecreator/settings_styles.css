@@ -1,0 +1,20 @@
+@font-face {
+	font-family: 'julia-mono-light';
+	src: url('fonts/JuliaMono-Light.ttf') format('truetype');
+}
+
+.text-area {
+	-fx-font-size: 17px;
+	-fx-font-family: 'julia-mono-light';
+}
+
+.label-settings {
+	-fx-font-size: 14px;
+	-fx-font-family: 'julia-mono-light';
+	-fx-text-fill: linear-gradient(from 0.0% 0.0% to 100.0% 0.0%, #cd2a5fff 0.0%, #763c89ff 100.0%);
+}
+
+.btn-save-close {
+	-fx-font-size: 16px;
+	-fx-font-family: ui-monospace;
+}
