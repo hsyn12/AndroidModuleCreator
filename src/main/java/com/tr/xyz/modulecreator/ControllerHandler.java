@@ -133,7 +133,7 @@ public class ControllerHandler {
 					
 					if (settingsGradleFile.exists()) {
 						print("File exists : " + settingsGradleFile.getAbsolutePath());
-						var include = String.format("\ninclude ':%s'", controller.packageName.getText());
+						var include = String.format("\ninclude ':%s'", controller.moduleName.getText());
 						var result  = Dev.appendFile(settingsGradleFile, include);
 						
 						if (result)

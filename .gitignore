@@ -39,3 +39,11 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/annotations-23.0.0.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-base-19.0.2.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-base-19.0.2-win.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-controls-19.0.2.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-controls-19.0.2-win.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-fxml-19.0.2-win.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-graphics-19.0.2.jar
+/build/distributions/ModuleCreator-1.0-SNAPSHOT/lib/javafx-graphics-19.0.2-win.jar
