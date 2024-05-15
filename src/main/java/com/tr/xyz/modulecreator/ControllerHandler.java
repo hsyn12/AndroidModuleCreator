@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +13,9 @@ import static com.tr.xyz.modulecreator.Dev.print;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 @SuppressWarnings ("FieldCanBeLocal")
 public class ControllerHandler {
@@ -25,9 +28,11 @@ public class ControllerHandler {
 	private final String            buildGradleKts          = "build.gradle.kts";
 	private final BooleanProperty   existSameDirectory      = new SimpleBooleanProperty(false);
 	private final BooleanProperty   isValidProjectDirectory = new SimpleBooleanProperty(false);
+	private final Consumer<String>  explorer;
 	private       String            lastSelectedFolder      = getLastSelectedFolder();
 	
-	public ControllerHandler(@NotNull CreatorController controller) {
+	public ControllerHandler(@NotNull CreatorController controller, Consumer<String> explorer) {
+		this.explorer   = explorer;
 		this.controller = controller;
 		initSelectedFolder();
 		listenFolderSelection();
@@ -39,7 +44,7 @@ public class ControllerHandler {
 		controller.createModule.disableProperty().bind(
 			isNotEmptyModuleWarning
 				.or(isModuleEmpty)
-				.or(existSameDirectory)
+				//.or(existSameDirectory)
 				.or(isValidProjectDirectory.not()));
 		controller.selectedFolderLabel.textProperty().bind(controller.selectedFolder.asString());
 		
@@ -53,18 +58,34 @@ public class ControllerHandler {
 			controller.labelDone.setText("");
 		});
 		
+		controller.createModule.setOnAction(event -> {
+			if (existSameDirectory.getValue()) {
+				explorer.accept(new File(lastSelectedFolder, controller.moduleName.getText()).getAbsolutePath());
+				
+			}
+			else makeModule();
+		});
+		
+		
 		controller.moduleName.disableProperty().bind(isValidProjectDirectory.not());
 		
 		existSameDirectory.addListener((observable, oldValue, newValue) -> {
 			if (newValue) {
 				// controller.labelDone.setTextFill(Color.RED);
-				controller.moduleWarning.setText("* Module name already exists");
+				// controller.moduleWarning.setText("* Module name already exists");
+				controller.createModule.setText("Open Directory");
 			}
-			else controller.moduleWarning.setText("");
+			else {
+				// controller.moduleWarning.setText("");
+				controller.createModule.setText("Create Module");
+			}
 			
 		});
 		
-		controller.makeModule.addListener((observable, oldValue, newValue) -> makeModule());
+	}
+	
+	private Stage getStage() {
+		return (Stage) controller.root.getScene().getWindow();
 	}
 	
 	private void checkModuleName() {
@@ -149,7 +170,6 @@ public class ControllerHandler {
 				print("All good");
 				controller.labelDone.setTextFill(Color.GREEN);
 				controller.labelDone.setText("* All Done");
-				controller.makeModule.setValue(false);
 			} catch (IOException e) {
 				e.printStackTrace();
 				controller.labelDone.setTextFill(Color.ORANGE);

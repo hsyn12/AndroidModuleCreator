@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -158,14 +159,22 @@ public class Creator extends Application {
 	@Override
 	public void start(@NotNull Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(Creator.class.getResource("creator.fxml"));
-		
-		Scene scene = new Scene(fxmlLoader.load());
+		Scene      scene      = new Scene(fxmlLoader.load());
 		stage.setTitle("Crate Module");
 		stage.setScene(scene);
-		handler = new ControllerHandler(fxmlLoader.getController());
+		handler = new ControllerHandler(fxmlLoader.getController(), this::showDocument);
 		stage.show();
 		centerWindow(stage);
 		setMenu();
+	}
+	
+	private void showDocument(String path) {
+		try {
+			Desktop.getDesktop().browse(new File(path).toURI());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		// getHostServices().showDocument(new File(path).toURI().toString());
 	}
 	
 	/**

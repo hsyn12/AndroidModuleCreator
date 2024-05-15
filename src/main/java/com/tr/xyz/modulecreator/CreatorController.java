@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -21,7 +22,6 @@ public class CreatorController {
 	public static final String                   MENU_ITEM_KOTLIN         = "Kotlin Template";
 	public static final String                   MENU_ITEM_DOMAIN         = "Package Domain";
 	public final        ObjectProperty<File>     selectedFolder           = new SimpleObjectProperty<>();
-	public final        BooleanProperty          makeModule               = new SimpleBooleanProperty(false);
 	public final        ObservableList<MenuItem> templateMenuItems        = FXCollections.observableArrayList(
 		new MenuItem(MENU_ITEM_ANDROID_JAVA),
 		new MenuItem(MENU_ITEM_ANDROID_KOTLIN),
@@ -44,6 +44,7 @@ public class CreatorController {
 	@FXML public        TextField                moduleName;
 	@FXML public        Label                    labelDone;
 	@FXML public        Button                   settings;
+	public              HBox                     root;
 	
 	@FXML
 	protected void onSelectFolder() {
@@ -56,11 +57,6 @@ public class CreatorController {
 		if (file != null) {
 			selectedFolder.setValue(file);
 		}
-	}
-	
-	@FXML
-	private void onCreateModule() {
-		makeModule.setValue(true);
 	}
 	
 	@FXML

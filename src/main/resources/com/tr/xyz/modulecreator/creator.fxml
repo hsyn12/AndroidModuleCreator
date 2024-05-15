@@ -13,7 +13,8 @@
       spacing="36.0"
       styleClass="purple"
       xmlns="http://javafx.com/javafx/11.0.14-internal"
-      fx:controller="com.tr.xyz.modulecreator.CreatorController">
+      fx:controller="com.tr.xyz.modulecreator.CreatorController"
+      fx:id="root">
 	<padding>
 		<Insets left="16.0"
 		        top="16.0"/>
@@ -242,7 +243,6 @@
 				        contentDisplay="CENTER"
 				        disable="true"
 				        mnemonicParsing="false"
-				        onMouseClicked="#onCreateModule"
 				        prefHeight="40"
 				        prefWidth="200"
 				        styleClass="button"
