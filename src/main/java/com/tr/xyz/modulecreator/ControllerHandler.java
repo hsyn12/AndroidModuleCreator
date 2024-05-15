@@ -4,18 +4,16 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static com.tr.xyz.modulecreator.Dev.print;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static com.tr.xyz.modulecreator.Dev.print;
 
 @SuppressWarnings ("FieldCanBeLocal")
 public class ControllerHandler {
@@ -49,43 +47,32 @@ public class ControllerHandler {
 		controller.selectedFolderLabel.textProperty().bind(controller.selectedFolder.asString());
 		
 		controller.moduleName.setOnKeyReleased(event -> {
-			controller.packageName.setText("package : " + getPackageName());
+			String pName = getPackageName();
+			controller.packageName.setText("package : " + pName);
 			checkModuleName();
-			if (event.getCode().equals(javafx.scene.input.KeyCode.ENTER)) {
-				if (!controller.createModule.isDisable())
-					makeModule();
+			if (event.getCode() == javafx.scene.input.KeyCode.ENTER) {
+				checkModule();
 			}
-			controller.labelDone.setText("");
 		});
 		
-		controller.createModule.setOnAction(event -> {
-			if (existSameDirectory.getValue()) {
-				explorer.accept(new File(lastSelectedFolder, controller.moduleName.getText()).getAbsolutePath());
-				
-			}
-			else makeModule();
-		});
-		
-		
+		controller.createModule.setOnAction(event -> checkModule());
 		controller.moduleName.disableProperty().bind(isValidProjectDirectory.not());
 		
 		existSameDirectory.addListener((observable, oldValue, newValue) -> {
-			if (newValue) {
-				// controller.labelDone.setTextFill(Color.RED);
-				// controller.moduleWarning.setText("* Module name already exists");
-				controller.createModule.setText("Open Directory");
-			}
-			else {
-				// controller.moduleWarning.setText("");
-				controller.createModule.setText("Create Module");
-			}
-			
+			if (newValue) controller.createModule.setText("Open Directory");
+			else controller.createModule.setText("Create Module");
 		});
-		
 	}
 	
-	private Stage getStage() {
-		return (Stage) controller.root.getScene().getWindow();
+	private void checkModule() {
+		if (controller.moduleName.getText().isBlank()) return;
+		
+		if (existSameDirectory.getValue()) {
+			explorer.accept(new File(lastSelectedFolder, controller.moduleName.getText()).getAbsolutePath());
+		}
+		else {
+			makeModule();
+		}
 	}
 	
 	private void checkModuleName() {
@@ -95,6 +82,7 @@ public class ControllerHandler {
 			existSameDirectory.setValue(false);
 		}
 		else {
+			controller.labelDone.setText("");
 			var file = new File(lastSelectedFolder, controller.moduleName.getText());
 			existSameDirectory.setValue(file.exists());
 		}
@@ -170,6 +158,7 @@ public class ControllerHandler {
 				print("All good");
 				controller.labelDone.setTextFill(Color.GREEN);
 				controller.labelDone.setText("* All Done");
+				existSameDirectory.setValue(true);
 			} catch (IOException e) {
 				e.printStackTrace();
 				controller.labelDone.setTextFill(Color.ORANGE);

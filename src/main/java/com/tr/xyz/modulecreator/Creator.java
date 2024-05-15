@@ -169,6 +169,7 @@ public class Creator extends Application {
 	}
 	
 	private void showDocument(String path) {
+		Dev.print("Show Directory : %s", path);
 		try {
 			Desktop.getDesktop().browse(new File(path).toURI());
 		} catch (IOException e) {
