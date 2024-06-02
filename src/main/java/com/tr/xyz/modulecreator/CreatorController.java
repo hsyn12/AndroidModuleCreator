@@ -1,6 +1,7 @@
 package com.tr.xyz.modulecreator;
 
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,13 +51,21 @@ public class CreatorController {
 	protected void onSelectFolder() {
 		var chooser = new DirectoryChooser();
 		
-		if (selectedFolder.getValue() != null)
-			chooser.setInitialDirectory(selectedFolder.getValue());
+		if (selectedFolder.getValue() != null) {
+			File file = new File(selectedFolder.getValue().toString());
+			if (file.exists())
+				chooser.setInitialDirectory(selectedFolder.getValue());
+			else {
+				chooser.setInitialDirectory(new File("."));
+				selectedFolder.setValue(null);
+			}
+		}
 		
 		var file = chooser.showDialog(selectedFolderLabel.getScene().getWindow());
 		if (file != null) {
 			selectedFolder.setValue(file);
 		}
+		
 	}
 	
 	@FXML

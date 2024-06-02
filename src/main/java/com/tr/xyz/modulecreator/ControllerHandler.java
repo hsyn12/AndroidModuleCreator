@@ -18,6 +18,9 @@ import static com.tr.xyz.modulecreator.Dev.print;
 @SuppressWarnings ("FieldCanBeLocal")
 public class ControllerHandler {
 	
+	/**
+	 * Holds the module name parts. ['contact', 'view', 'style']
+	 */
 	public final  List<String>      moduleNameParts         = new ArrayList<>();
 	public final  CreatorController controller;
 	private final String            settingsGradle          = "settings.gradle";
@@ -47,12 +50,15 @@ public class ControllerHandler {
 		controller.selectedFolderLabel.textProperty().bind(controller.selectedFolder.asString());
 		
 		controller.moduleName.setOnKeyReleased(event -> {
-			String pName = getPackageName();
-			controller.packageName.setText("package : " + pName);
-			checkModuleName();
 			if (event.getCode() == javafx.scene.input.KeyCode.ENTER) {
 				checkModule();
 			}
+		});
+		
+		controller.moduleName.textProperty().addListener((observable, oldValue, newValue) -> {
+			String pName = getPackageName();
+			controller.packageName.setText("package : " + pName);
+			checkModuleName();
 		});
 		
 		controller.createModule.setOnAction(event -> checkModule());
@@ -80,6 +86,7 @@ public class ControllerHandler {
 		if (name.isEmpty()) {
 			controller.moduleWarning.setText("");
 			existSameDirectory.setValue(false);
+			controller.labelDone.setText("");
 		}
 		else {
 			controller.labelDone.setText("");
@@ -142,11 +149,19 @@ public class ControllerHandler {
 					
 					if (settingsGradleFile.exists()) {
 						print("File exists : " + settingsGradleFile.getAbsolutePath());
-						var include = String.format("\ninclude ':%s'", controller.moduleName.getText());
-						var result  = Dev.appendFile(settingsGradleFile, include);
+						String include;
+						if (moduleNameParts.isEmpty()) {
+							include = String.format("\ninclude ':%s'", controller.moduleName.getText());
+						}
+						else {
+							include = String.format("\ninclude ':%s'", String.join(":", moduleNameParts.reversed()) + ":" + controller.moduleName.getText());
+						}
+						
+						Dev.print("Module parts : %s", moduleNameParts);
+						var result = Dev.appendFile(settingsGradleFile, include);
 						
 						if (result)
-							print("File appended : " + settingsGradleFile.getAbsolutePath());
+							print("include appended : " + settingsGradleFile.getAbsolutePath());
 						else
 							print("File append failed : " + settingsGradleFile.getAbsolutePath());
 					}
@@ -247,7 +262,6 @@ public class ControllerHandler {
 		var moduleName = controller.moduleName.getText();
 		
 		if (this.moduleNameParts.isEmpty()) return moduleName;
-		
 		else if (this.moduleNameParts.size() == 1) {
 			return Dev.format(
 				"%s%s",
@@ -257,7 +271,7 @@ public class ControllerHandler {
 		else {
 			return Dev.format(
 				"%s%s",
-				String.join(":", this.moduleNameParts),
+				String.join(":", this.moduleNameParts.reversed()),
 				moduleName.isBlank() ? "" : String.format(":%s", moduleName));
 		}
 	}
@@ -280,11 +294,16 @@ public class ControllerHandler {
 		if (!settingsGradleFile.exists() && !settingsGradleKtsFile.exists()) {
 			var builFile = new File(currentFolder, buildGradle);
 			if (builFile.exists()) {
-				moduleNameParts.add(currentFolder.getName());
+				if (!moduleNameParts.contains(currentFolder.getName()))
+					moduleNameParts.add(currentFolder.getName());
+				
 			}
 			else {
 				builFile = new File(currentFolder, buildGradleKts);
-				if (builFile.exists()) moduleNameParts.add(currentFolder.getName());
+				if (builFile.exists())
+					if (!moduleNameParts.contains(currentFolder.getName()))
+						moduleNameParts.add(currentFolder.getName());
+				
 			}
 			
 			return getGradleRoot(currentFolder.getParentFile());
